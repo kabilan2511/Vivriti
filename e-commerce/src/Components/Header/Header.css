@@ -1,0 +1,46 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  margin: 3% 3%;
+}
+
+.search-bar {
+  margin-left: 20%;
+  width: 33rem;
+  border-radius: 6px;
+}
+
+.rainbow-text {
+  font-family: Arial;
+  font-weight: bold;
+  font-size: 30px;
+  text-shadow: #a3a3a3 1px 1px 1px;
+}
+
+.rainbow-text .block-line > span {
+  display: inline-block;
+}
+
+.header-buttons {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  margin-left: 3%;
+}
+
+.opening-card {
+  color: white;
+  margin: -2% 3% 0% 3%;
+  padding: 1% 1%;
+  border: 2px solid black;
+  border-radius: 8px;
+  background-image: linear-gradient(to right, black, brown);
+}
+
+.header-buttons:hover {
+  color: rgb(202, 18, 18);
+}

@@ -1,0 +1,17 @@
+.product-list {
+  margin: 0.5% 3% 0% 3%;
+}
+
+.select-category {
+  width: 25%;
+  height: 30px;
+  border-radius: 6px;
+  margin-bottom: 1%;
+}
+
+.product-cards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
