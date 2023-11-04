@@ -11,9 +11,6 @@ const ProductList = (props) => {
   const [products, setProducts] = useState([]);
   const [selectedValue, setSelectedValue] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  console.log("products", products);
-  console.log("selectedValue", selectedValue);
-  console.log("searchWord", searchWord);
 
   const itemsPerPage = 12;
   const [currentPage, setCurrentPage] = useState(1);
@@ -42,16 +39,24 @@ const ProductList = (props) => {
     setSelectedValue(event.target.value);
   };
 
+  const searchInCategory = (products) => {
+    return products.filter((data) => {
+      let title = data.title.toLowerCase();
+      let result = title.includes(searchWord.toLowerCase());
+      console.log("filter", result);
+      return result;
+    });
+  };
+
   useEffect(() => {
     // setIsLoading(true);
     axios.get("https://dummyjson.com/products/categories").then((res) => {
-      console.log(res.data);
       setProductCategory(res.data);
       setIsLoading(false);
     });
     if (searchWord.length === 0 || selectedValue.length === 0) {
       axios.get("https://dummyjson.com/products").then((res) => {
-        console.log(res);
+        console.log("products", res.data.products);
         setProducts(res.data.products);
         setIsLoading(false);
       });
@@ -62,21 +67,37 @@ const ProductList = (props) => {
     setIsLoading(true);
     if (selectedValue.length > 0) {
       let categoryUrl = `https://dummyjson.com/products/category/${selectedValue}`;
-      console.log(categoryUrl);
       axios.get(categoryUrl).then((res) => {
-        setProducts(res.data.products);
-        setIsLoading(false);
-      });
-    }
-    if (searchWord.length > 0) {
-      let categorySearchUrl = `https://dummyjson.com/products/search?q=${searchWord}`;
-      console.log(categorySearchUrl);
-      axios.get(categorySearchUrl).then((res) => {
-        setProducts(res.data.products);
+        searchInCategory(res.data.products);
+        searchWord.length === 0
+          ? setProducts(res.data.products)
+          : setProducts(searchInCategory);
         setIsLoading(false);
       });
     }
   }, [selectedValue, searchWord]);
+
+  useEffect(() => {
+    setIsLoading(true);
+
+    if (searchWord && !selectedValue) {
+      let categorySearchUrl = `https://dummyjson.com/products/search?q=${searchWord}`;
+      axios.get(categorySearchUrl).then((res) => {
+        console.log("search", res.data.products);
+        setProducts(res.data.products);
+        setIsLoading(false);
+      });
+    } else {
+      if (!selectedValue) {
+        let categorySearchUrl = `https://dummyjson.com/products/search?q=${searchWord}`;
+        axios.get(categorySearchUrl).then((res) => {
+          console.log("search", res.data.products);
+          setProducts(res.data.products);
+          setIsLoading(false);
+        });
+      }
+    }
+  }, [searchWord]);
 
   return (
     <div className="product-list">

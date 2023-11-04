@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Moboom from "../../Helpers/moboom/Moboom";
+import Moboom from "../../Helpers/moboom/Moboom.js";
 import ProductList from "../ProductList/ProductList";
 import "./Header.css";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
