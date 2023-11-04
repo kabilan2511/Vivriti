@@ -6,7 +6,7 @@
   position: relative;
   border: 1px solid #ccc;
   border-radius: 10px;
-  margin: 5px;
+  margin: 8px;
   width: 340px;
   height: 480px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -51,10 +51,12 @@ h2 {
 }
 
 .favorite-icon1 {
-  color: red;
+  color: white;
   position: absolute;
   top: 10px;
   right: 10px;
+  background-color: #c8c4c4;
+  padding: 6px;
 }
 
 .rating {

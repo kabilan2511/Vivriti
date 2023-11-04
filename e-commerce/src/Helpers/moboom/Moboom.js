@@ -1,4 +1,5 @@
 import "./Moboom.css";
+import { Link } from "react-router-dom";
 
 const Moboom = () => {
   return (

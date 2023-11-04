@@ -18,6 +18,7 @@ const ProductList = (props) => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
+  console.log("currentItems", currentItems);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -49,60 +50,55 @@ const ProductList = (props) => {
   };
 
   useEffect(() => {
-    // setIsLoading(true);
-    axios.get("https://dummyjson.com/products/categories").then((res) => {
-      setProductCategory(res.data);
-      setIsLoading(false);
-    });
-    if (searchWord.length === 0 || selectedValue.length === 0) {
-      axios.get("https://dummyjson.com/products").then((res) => {
-        console.log("products", res.data.products);
-        setProducts(res.data.products);
+    axios
+      .get("https://dummyjson.com/products/categories")
+      .then((res) => {
+        setProductCategory(res.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
         setIsLoading(false);
       });
-    }
   }, []);
 
   useEffect(() => {
     setIsLoading(true);
+    let apiUrl = "https://dummyjson.com/products";
     if (selectedValue.length > 0) {
-      let categoryUrl = `https://dummyjson.com/products/category/${selectedValue}`;
-      axios.get(categoryUrl).then((res) => {
-        searchInCategory(res.data.products);
-        searchWord.length === 0
-          ? setProducts(res.data.products)
-          : setProducts(searchInCategory);
+      apiUrl = `https://dummyjson.com/products/category/${selectedValue}`;
+    } else if (searchWord) {
+      apiUrl = `https://dummyjson.com/products/search?q=${searchWord}`;
+    }
+
+    axios
+      .get(apiUrl)
+      .then((res) => {
+        let fetchedProducts = res.data.products;
+
+        if (selectedValue.length > 0) {
+          fetchedProducts = searchInCategory(fetchedProducts);
+        }
+
+        const newTotalPages = Math.ceil(fetchedProducts.length / itemsPerPage);
+
+        if (currentPage > newTotalPages) {
+          setCurrentPage(1);
+        }
+
+        setProducts(fetchedProducts);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
         setIsLoading(false);
       });
-    }
-  }, [selectedValue, searchWord]);
-
-  useEffect(() => {
-    setIsLoading(true);
-
-    if (searchWord && !selectedValue) {
-      let categorySearchUrl = `https://dummyjson.com/products/search?q=${searchWord}`;
-      axios.get(categorySearchUrl).then((res) => {
-        console.log("search", res.data.products);
-        setProducts(res.data.products);
-        setIsLoading(false);
-      });
-    } else {
-      if (!selectedValue) {
-        let categorySearchUrl = `https://dummyjson.com/products/search?q=${searchWord}`;
-        axios.get(categorySearchUrl).then((res) => {
-          console.log("search", res.data.products);
-          setProducts(res.data.products);
-          setIsLoading(false);
-        });
-      }
-    }
-  }, [searchWord]);
+  }, [currentPage, selectedValue, searchWord]);
 
   return (
     <div className="product-list">
       <select className="select-category" onChange={handleDropdownChange}>
-        <option value="" disabled selected>
+        <option value="" selected>
           Select Category...
         </option>
         {productCategory.map((data) => {
@@ -137,7 +133,7 @@ const ProductList = (props) => {
         {products.length > itemsPerPage && (
           <>
             <button onClick={handlePrevClick} disabled={currentPage === 1}>
-              Previous
+              {"<"}
             </button>
             <ul>
               {Array(Math.ceil(products.length / itemsPerPage))
@@ -154,7 +150,7 @@ const ProductList = (props) => {
               onClick={handleNextClick}
               disabled={currentPage === totalPages}
             >
-              Next
+              {">"}
             </button>
           </>
         )}
