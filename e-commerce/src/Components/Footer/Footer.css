@@ -1,6 +1,68 @@
-.footer-text {
+.footer {
+  background-color: aliceblue;
+  padding: 24px 5%;
+}
+
+.footer-info {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  background-color: aliceblue;
+  justify-content: space-between;
+}
+
+.footer-icons-section {
+  display: flex;
+  margin-bottom: 16px;
+  justify-content: space-between;
+}
+
+.footer-icons-section div:first-child {
+  margin-right: 24px;
+}
+
+.footer-signUp h5 {
+  font-size: 16px;
+  line-height: 21px;
+  margin: 8px 0;
+}
+
+.footer-signUp input {
+  width: 100%;
+  padding: 8px;
+  margin-right: 8px;
+}
+
+.footer-signUp span,
+.footer-signUp a {
+  font-size: 12px;
+}
+
+.footer-signUp-subscribe {
+  display: flex;
+  margin-bottom: 16px;
+}
+
+.footer-signUp-subscribe button {
+  color: white;
+  background-color: black;
+  border: none;
+  padding: 0 16px;
+}
+
+.footer-documents {
+  list-style: none;
+  display: flex;
+  max-width: 600px;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+.footer-documents li {
+  text-decoration: underline;
+  color: lightslategray;
+}
+
+.footer-documents li:not(:last-child) {
+  margin-right: 8px;
+  padding-right: 8px;
+  border-right: 1px solid lightgray;
 }

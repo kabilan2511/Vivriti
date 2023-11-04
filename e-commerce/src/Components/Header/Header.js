@@ -1,9 +1,16 @@
+import { useState } from "react";
 import Moboom from "../../Helpers/moboom/Moboom";
 import ProductList from "../ProductList/ProductList";
 import "./Header.css";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
+import Footer from "../Footer/Footer.js";
 
 const Header = () => {
+  const [searchWord, setSearchWord] = useState("");
+
+  const handleSearchWord = (e) => {
+    setSearchWord(e.target.value);
+  };
   return (
     <>
       <div className="header">
@@ -13,6 +20,7 @@ const Header = () => {
           type="search"
           placeholder="Search.."
           name="search"
+          onChange={handleSearchWord}
         ></input>
         <button className="header-buttons">Store</button>
         <button className="header-buttons">Account</button>
@@ -27,7 +35,8 @@ const Header = () => {
           Slash Sales bgin in November. Get upto 80% Discount on all products.
         </p>
       </div>
-      <ProductList />
+      <ProductList searchWord={searchWord} />
+      <Footer />
     </>
   );
 };
