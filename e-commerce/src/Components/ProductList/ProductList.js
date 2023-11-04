@@ -50,9 +50,9 @@ const ProductList = () => {
   }, []);
 
   useEffect(() => {
-    let categoryUrl = `https://dummyjson.com/products/category/${selectedValue}`;
-    console.log(categoryUrl);
     if (selectedValue) {
+      let categoryUrl = `https://dummyjson.com/products/category/${selectedValue}`;
+      console.log(categoryUrl);
       axios.get(categoryUrl).then((res) => {
         setProducts(res.data.products);
       });
