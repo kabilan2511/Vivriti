@@ -18,7 +18,6 @@ const ProductList = (props) => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
-  console.log("currentItems", currentItems);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -44,7 +43,6 @@ const ProductList = (props) => {
     return products.filter((data) => {
       let title = data.title.toLowerCase();
       let result = title.includes(searchWord.toLowerCase());
-      console.log("filter", result);
       return result;
     });
   };
@@ -57,7 +55,6 @@ const ProductList = (props) => {
         setIsLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching data: ", error);
         setIsLoading(false);
       });
   }, []);
@@ -90,7 +87,6 @@ const ProductList = (props) => {
         setIsLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching data: ", error);
         setIsLoading(false);
       });
   }, [currentPage, selectedValue, searchWord]);
